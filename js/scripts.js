@@ -3,17 +3,29 @@ $(function(){
   var playerO = new Player("O");
   var board = new Board();
   var game = new Game();
-  function fillSpace(x, y, output){
+  function fillSpace(x, y, output, players){
     if( board.space[x][y].mark === undefined){
       if(game.turn === "X"){
-        $(output).text(board.space[x][y].spaceMark(playerX));
+        board.space[x][y].spaceMark(playerX)
+        $(output).html("<img src='img/X.png'>");
         game.turn = "O";
         game.turnCounter++;
       }
-      else{
-        $(output).text(board.space[x][y].spaceMark(playerO));
-        game.turn = "X";
-        game.turnCounter++;
+      else {
+        if (players === 1) {
+          computerMove();
+          board.space[randOne][randTwo].spaceMark(playerO)
+          debugger;
+          $(output).html("<img src='img/o.png'>");
+          game.turn = "X";
+          game.turnCounter++;
+        }
+        else {
+          board.space[x][y].spaceMark(playerO)
+          $(output).html("<img src='img/o.png'>");
+          game.turn = "X";
+          game.turnCounter++;
+        }
       }
       win(board.space,x,y);
     }
@@ -22,22 +34,26 @@ $(function(){
     }
   }
   $("#start").click(function(){
+    numPlayers = parseInt($('input[name="playerChoice"]:checked').val());
     for(var i=0; i<3; i++){
       for(var j=0; j<3; j++){
         board.space[i][j] = new Space(i,j);
       }
     }
   })
-    $("#11").click(function(){fillSpace(0, 0, "#11output")});
-    $("#12").click(function(){fillSpace(0, 1, "#12output")});
-    $("#13").click(function(){fillSpace(0, 2, "#13output")});
-    $("#21").click(function(){fillSpace(1, 0, "#21output")});
-    $("#22").click(function(){fillSpace(1, 1, "#22output")});
-    $("#23").click(function(){fillSpace(1, 2, "#23output")});
-    $("#31").click(function(){fillSpace(2, 0, "#31output")});
-    $("#32").click(function(){fillSpace(2, 1, "#32output")});
-    $("#33").click(function(){fillSpace(2, 2, "#33output")});
+  $("#11").click(function(){fillSpace(0, 0, "#11output", numPlayers)});
+  $("#12").click(function(){fillSpace(0, 1, "#12output", numPlayers)});
+  $("#13").click(function(){fillSpace(0, 2, "#13output", numPlayers)});
+  $("#21").click(function(){fillSpace(1, 0, "#21output", numPlayers)});
+  $("#22").click(function(){fillSpace(1, 1, "#22output", numPlayers)});
+  $("#23").click(function(){fillSpace(1, 2, "#23output", numPlayers)});
+  $("#31").click(function(){fillSpace(2, 0, "#31output", numPlayers)});
+  $("#32").click(function(){fillSpace(2, 1, "#32output", numPlayers)});
+  $("#33").click(function(){fillSpace(2, 2, "#33output", numPlayers)});
+
 });
+// });
+
 
 //business logic
 function Space(x, y){
@@ -92,5 +108,24 @@ function win(space,x,y){
 }
 
 function gameOver(player){
-    $("body").html("<h1>congratulations, "+ player + " won!</h1>");
+    $("body").html("<h1>congratulations, "+ player + " won!</h1>"
+                  + "<br> <button type='button' id='playAgain' class='btn btn-primary'>Play Again!</button>");
+    $("#playAgain").click(function() {
+      location.reload(true)
+    });
+}
+
+
+function computerMove() {
+    randOne = Math.floor(Math.random()*3);
+    randTwo = Math.floor(Math.random()*3);
+  // var moveArray = [];
+  // for(var i=0; i<3; i++){
+  //   for(var j=0; j<3; j++){
+  //     if(boardArray[i][j].mark === undefined) {
+  //       moveArray.push(boardArray[i][j]);
+  //     }
+  //   }
+  // }
+  // moveArray[Math.floor(Math.random()*moveArray.length)];
 }

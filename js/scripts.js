@@ -153,7 +153,16 @@ function fillSpace(x, y, output, players, board,game,playerX,playerO){
                     win(board.space,(i+2)%3,(j+2)%3);
                     return;
                 }
-                else if(board.space[i][j].mark ==="X" && board.space[i][(j+1)%3].mark === "X" && board.space[i][(j+2)%3].mark === undefined) {
+                else if(board.space[i][j].mark ==="O" && board.space[(i+2)%3][(j+1)%3].mark === "O" && board.space[(i+1)%3][(j+2)%3].mark === undefined) {
+                    board.space[(i+1)%3][(j+2)%3].spaceMark(playerO);
+                    var spaceID = ((i+1)%3).toString() + ((j+2)%3).toString() + "output";
+                    $("#" + spaceID).html("<img src='img/o.png'>");
+                    game.turn = "X";
+                    game.turnCounter++;
+                    win(board.space,(i+1)%3,(j+2)%3);
+                    return;
+                }
+                else if(board.space[i][j].mark ==="X" && board.space[i][(j+1)%3].mark === "X"){ if(board.space[i][(j+2)%3].mark === undefined) {
                     board.space[i][(j+2)%3].spaceMark(playerO);
                     var spaceID = i.toString() + ((j+2)%3).toString() + "output";
                     $("#" + spaceID).html("<img src='img/o.png'>");
@@ -162,27 +171,9 @@ function fillSpace(x, y, output, players, board,game,playerX,playerO){
                     win(board.space,i,(j+2)%3);
                     return;
                 }
-                else if(board.space[i][j].mark ==="X" && board.space[(i+1)%3][j].mark === "X" && board.space[(i+2)%3][j].mark === undefined ) {
-                    board.space[(i+2)%3][j].spaceMark(playerO);
-                    var spaceID = ((i+2)%3).toString() + j.toString() + "output";
-                    $("#" + spaceID).html("<img src='img/o.png'>");
-                    game.turn = "X";
-                    game.turnCounter++;
-                    win(board.space,(i+2)%3,j);
-                    return;
-                }
-                else if(board.space[i][j].mark ==="X" && board.space[(i+1)%3][(j+1)%3].mark === "X" && board.space[(i+2)%3][(j+2)%3].mark === undefined) {
-                    board.space[(i+2)%3][(j+2)%3].spaceMark(playerO);
-                    var spaceID = ((i+2)%3).toString() + ((j+2)%3).toString() + "output";
-                    $("#" + spaceID).html("<img src='img/o.png'>");
-                    game.turn = "X";
-                    game.turnCounter++;
-                    win(board.space,(i+2)%3,(j+2)%3);
-                    return;
-                }
-                else {
+                else{
                   var randOne = x;
-                  var randTwo = y;
+                  var randTwo = y;console.log("aaa")
                   if(game.turnCounter<9){
                     while( board.space[randOne][randTwo].mark !== undefined){
                       randOne = Math.floor(Math.random()*3);
@@ -193,10 +184,104 @@ function fillSpace(x, y, output, players, board,game,playerX,playerO){
                     $("#" + spaceID).html("<img src='img/o.png'>");
                     game.turn = "X";
                     game.turnCounter++;
-                    }
-                    win(board.space,randOne,randTwo);
+                    return;
+                  }
+                }}
+                else if(board.space[i][j].mark ==="X" && board.space[(i+1)%3][j].mark === "X"){ if(board.space[(i+2)%3][j].mark === undefined ) {
+                    board.space[(i+2)%3][j].spaceMark(playerO);
+                    var spaceID = ((i+2)%3).toString() + j.toString() + "output";
+                    $("#" + spaceID).html("<img src='img/o.png'>");
+                    game.turn = "X";
+                    game.turnCounter++;
+                    win(board.space,(i+2)%3,j);
                     return;
                 }
+                else{
+                  var randOne = x;
+                  var randTwo = y;console.log("aaa")
+                  if(game.turnCounter<9){
+                    while( board.space[randOne][randTwo].mark !== undefined){
+                      randOne = Math.floor(Math.random()*3);
+                      randTwo = Math.floor(Math.random()*3);
+                    }
+                    board.space[randOne][randTwo].spaceMark(playerO);
+                    var spaceID = randOne.toString() + randTwo.toString() + "output";
+                    $("#" + spaceID).html("<img src='img/o.png'>");
+                    game.turn = "X";
+                    game.turnCounter++;
+                    return;
+                  }
+                }}
+                else if(board.space[i][j].mark ==="X" && board.space[(i+1)%3][(j+1)%3].mark === "X"){ if(board.space[(i+2)%3][(j+2)%3].mark === undefined) {
+                    board.space[(i+2)%3][(j+2)%3].spaceMark(playerO);
+                    var spaceID = ((i+2)%3).toString() + ((j+2)%3).toString() + "output";
+                    $("#" + spaceID).html("<img src='img/o.png'>");
+                    game.turn = "X";
+                    game.turnCounter++;
+                    win(board.space,(i+2)%3,(j+2)%3);
+                    return;
+                }
+                else{
+                  var randOne = x;
+                  var randTwo = y;console.log("aaa")
+                  if(game.turnCounter<9){
+                    while( board.space[randOne][randTwo].mark !== undefined){
+                      randOne = Math.floor(Math.random()*3);
+                      randTwo = Math.floor(Math.random()*3);
+                    }
+                    board.space[randOne][randTwo].spaceMark(playerO);
+                    var spaceID = randOne.toString() + randTwo.toString() + "output";
+                    $("#" + spaceID).html("<img src='img/o.png'>");
+                    game.turn = "X";
+                    game.turnCounter++;
+                    return;
+                  }}
+                }
+                else if(board.space[i][j].mark ==="X" && board.space[(i+2)%3][(j+1)%3].mark === "X") {
+                  if(board.space[(i+1)%3][(j+2)%3].mark === undefined){
+                    board.space[(i+1)%3][(j+2)%3].spaceMark(playerO);
+                    var spaceID = ((i+1)%3).toString() + ((j+2)%3).toString() + "output";
+                    $("#" + spaceID).html("<img src='img/o.png'>");
+                    game.turn = "X";
+                    game.turnCounter++;
+                    win(board.space,(i+1)%3,(j+2)%3);
+                    return;
+                  }
+                  else{
+                    var randOne = x;
+                    var randTwo = y;console.log("aaa")
+                    if(game.turnCounter<9){
+                      while( board.space[randOne][randTwo].mark !== undefined){
+                        randOne = Math.floor(Math.random()*3);
+                        randTwo = Math.floor(Math.random()*3);
+                      }
+                      board.space[randOne][randTwo].spaceMark(playerO);
+                      var spaceID = randOne.toString() + randTwo.toString() + "output";
+                      $("#" + spaceID).html("<img src='img/o.png'>");
+                      game.turn = "X";
+                      game.turnCounter++;
+                      return;
+                    }
+                  }
+                }
+                // else if(board.space[i][j].mark ==="X" || board.space[i][j].mark ==="O"){
+                //   alert("random");
+                //   var randOne = x;
+                //   var randTwo = y;
+                //   if(game.turnCounter<9){
+                //     while( board.space[randOne][randTwo].mark !== undefined){
+                //       randOne = Math.floor(Math.random()*3);
+                //       randTwo = Math.floor(Math.random()*3);
+                //     }
+                //     board.space[randOne][randTwo].spaceMark(playerO);
+                //     var spaceID = randOne.toString() + randTwo.toString() + "output";
+                //     $("#" + spaceID).html("<img src='img/o.png'>");
+                //     game.turn = "X";
+                //     game.turnCounter++;
+                //     }
+                //     win(board.space,randOne,randTwo);
+                //     return;
+                // }
               }
             }
           }
